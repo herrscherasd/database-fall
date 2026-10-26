@@ -1,0 +1,125 @@
+-- Lab 06: Tables, Data Types and Constraints
+
+
+
+
+-- 1. Create a students table
+
+CREATE TABLE students (
+
+    student_id SERIAL PRIMARY KEY,
+
+    first_name VARCHAR(50) NOT NULL,
+
+    last_name VARCHAR(50) NOT NULL,
+
+    email VARCHAR(100) UNIQUE NOT NULL,
+
+    faculty VARCHAR(100)
+
+);
+
+CREATE TABLE
+
+
+-- 2. Test DROP TABLE
+
+CREATE TABLE test_table (
+
+    id SERIAL PRIMARY KEY,
+
+    name VARCHAR(50)
+
+);
+
+CREATE TABLE
+
+
+DROP TABLE test_table;
+
+DROP TABLE
+
+
+-- 3. Test DROP TABLE IF EXISTS
+
+DROP TABLE IF EXISTS test_table;
+
+psql:tables_data_types_constraints.sql:22: NOTICE:  00000
+DROP TABLE
+
+
+-- 4. Add a column
+
+ALTER TABLE students
+
+ADD COLUMN date_of_birth DATE;
+
+ALTER TABLE
+
+
+-- 5. Drop a column
+
+ALTER TABLE students
+
+DROP COLUMN faculty;
+
+ALTER TABLE
+
+
+-- 6. Change a column's data type
+
+ALTER TABLE students
+
+ALTER COLUMN first_name TYPE TEXT;
+
+ALTER TABLE
+
+
+-- 7. Add a constraint
+
+ALTER TABLE students
+
+ADD CONSTRAINT unique_student_email UNIQUE (email);
+
+ALTER TABLE
+
+
+-- 8. Rename a column
+
+ALTER TABLE students
+
+RENAME COLUMN email TO email_address;
+
+ALTER TABLE
+
+
+-- 9. Rename the table
+
+ALTER TABLE students
+
+RENAME TO university_students;
+
+ALTER TABLE
+
+
+-- 10. Create a temporary table
+
+CREATE TEMP TABLE temp_students (
+
+    id SERIAL,
+
+    name VARCHAR(50)
+
+);
+
+CREATE TABLE
+
+
+-- 11. Drop the main table
+
+DROP TABLE university_students;
+
+DROP TABLE
+
+
+-- temp_students is automatically removed when the PostgreSQL session ends.

@@ -1,0 +1,107 @@
+-- Lab 15: Advanced Querying
+CREATE TABLE employees_lab15 (
+    employee_id SERIAL PRIMARY KEY,
+    employee_name VARCHAR(100),
+    department VARCHAR(50),
+    salary NUMERIC(10,2),
+    hire_date DATE
+);
+CREATE TABLE
+INSERT INTO employees_lab15 (employee_name, department, salary, hire_date)
+VALUES
+    ('Aibek', 'Engineering', 95000, '2021-01-15'),
+    ('Meerim', 'Engineering', 88000, '2022-04-10'),
+    ('Bakyt', 'Sales', 72000, '2020-03-20'),
+    ('Dana', 'Sales', 68000, '2023-02-01'),
+    ('Azamat', 'HR', 55000, '2022-11-05');
+INSERT 0 5
+-- Subquery
+SELECT employee_name, salary
+FROM employees_lab15
+WHERE salary > (SELECT AVG(salary) FROM employees_lab15);
+ employee_name |  salary  
+---------------+----------
+ Aibek         | 95000.00
+ Meerim        | 88000.00
+(2 rows)
+
+-- CTE
+WITH department_salary AS (
+    SELECT department, AVG(salary) AS avg_salary
+    FROM employees_lab15
+    GROUP BY department
+)
+SELECT e.employee_name, e.department, e.salary, ds.avg_salary
+FROM employees_lab15 e
+JOIN department_salary ds ON e.department = ds.department
+WHERE e.salary >= ds.avg_salary;
+ employee_name | department  |  salary  |     avg_salary     
+---------------+-------------+----------+--------------------
+ Aibek         | Engineering | 95000.00 | 91500.000000000000
+ Bakyt         | Sales       | 72000.00 | 70000.000000000000
+ Azamat        | HR          | 55000.00 | 55000.000000000000
+(3 rows)
+
+-- Window functions
+SELECT employee_name, department, salary,
+       RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS salary_rank,
+       AVG(salary) OVER (PARTITION BY department) AS department_average
+FROM employees_lab15;
+ employee_name | department  |  salary  | salary_rank | department_average 
+---------------+-------------+----------+-------------+--------------------
+ Aibek         | Engineering | 95000.00 |           1 | 91500.000000000000
+ Meerim        | Engineering | 88000.00 |           2 | 91500.000000000000
+ Azamat        | HR          | 55000.00 |           1 | 55000.000000000000
+ Bakyt         | Sales       | 72000.00 |           1 | 70000.000000000000
+ Dana          | Sales       | 68000.00 |           2 | 70000.000000000000
+(5 rows)
+
+-- FILTER
+SELECT department,
+       COUNT(*) AS total_employees,
+       COUNT(*) FILTER (WHERE salary >= 80000) AS high_salary_employees
+FROM employees_lab15
+GROUP BY department;
+ department  | total_employees | high_salary_employees 
+-------------+-----------------+-----------------------
+ Engineering |               2 |                     2
+ Sales       |               2 |                     0
+ HR          |               1 |                     0
+(3 rows)
+
+-- Custom sorting with CASE
+SELECT employee_name, department, salary
+FROM employees_lab15
+ORDER BY
+    CASE department
+        WHEN 'Engineering' THEN 1
+        WHEN 'Sales' THEN 2
+        WHEN 'HR' THEN 3
+        ELSE 4
+    END,
+    salary DESC;
+ employee_name | department  |  salary  
+---------------+-------------+----------
+ Aibek         | Engineering | 95000.00
+ Meerim        | Engineering | 88000.00
+ Bakyt         | Sales       | 72000.00
+ Dana          | Sales       | 68000.00
+ Azamat        | HR          | 55000.00
+(5 rows)
+
+-- Query plan
+EXPLAIN
+SELECT employee_name
+FROM employees_lab15
+WHERE department = 'Engineering';
+                            QUERY PLAN                            
+------------------------------------------------------------------
+ Seq Scan on employees_lab15  (cost=0.00..12.62 rows=1 width=218)
+   Filter: ((department)::text = 'Engineering'::text)
+(2 rows)
+
+CREATE INDEX idx_employees_lab15_department
+ON employees_lab15(department);
+CREATE INDEX
+DROP TABLE employees_lab15;
+DROP TABLE

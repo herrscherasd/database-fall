@@ -1,0 +1,147 @@
+-- Lab 12: Querying Data
+CREATE TABLE employees_lab12 (
+    employee_id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    department VARCHAR(50),
+    salary NUMERIC(10,2),
+    email VARCHAR(120)
+);
+CREATE TABLE
+INSERT INTO employees_lab12 (name, department, salary, email)
+VALUES
+    ('Aibek', 'Sales', 65000, 'aibek@gmail.com'),
+    ('Meerim', 'Engineering', 95000, 'meerim@company.com'),
+    ('Bakyt', 'Engineering', 78000, 'bakyt@gmail.com'),
+    ('Dana', 'HR', 52000, 'dana@company.com'),
+    ('Azamat', 'Sales', 72000, 'azamat@company.com');
+INSERT 0 5
+SELECT * FROM employees_lab12;
+ employee_id |  name  | department  |  salary  |       email        
+-------------+--------+-------------+----------+--------------------
+           1 | Aibek  | Sales       | 65000.00 | aibek@gmail.com
+           2 | Meerim | Engineering | 95000.00 | meerim@company.com
+           3 | Bakyt  | Engineering | 78000.00 | bakyt@gmail.com
+           4 | Dana   | HR          | 52000.00 | dana@company.com
+           5 | Azamat | Sales       | 72000.00 | azamat@company.com
+(5 rows)
+
+SELECT name, department FROM employees_lab12;
+  name  | department  
+--------+-------------
+ Aibek  | Sales
+ Meerim | Engineering
+ Bakyt  | Engineering
+ Dana   | HR
+ Azamat | Sales
+(5 rows)
+
+SELECT name, salary, salary * 0.10 AS potential_bonus
+FROM employees_lab12;
+  name  |  salary  | potential_bonus 
+--------+----------+-----------------
+ Aibek  | 65000.00 |       6500.0000
+ Meerim | 95000.00 |       9500.0000
+ Bakyt  | 78000.00 |       7800.0000
+ Dana   | 52000.00 |       5200.0000
+ Azamat | 72000.00 |       7200.0000
+(5 rows)
+
+SELECT name, salary
+FROM employees_lab12
+WHERE department = 'Sales';
+  name  |  salary  
+--------+----------
+ Aibek  | 65000.00
+ Azamat | 72000.00
+(2 rows)
+
+SELECT name
+FROM employees_lab12
+WHERE salary > 75000 AND department = 'Engineering';
+  name  
+--------
+ Meerim
+ Bakyt
+(2 rows)
+
+SELECT name, salary
+FROM employees_lab12
+WHERE salary BETWEEN 60000 AND 80000;
+  name  |  salary  
+--------+----------
+ Aibek  | 65000.00
+ Bakyt  | 78000.00
+ Azamat | 72000.00
+(3 rows)
+
+SELECT name
+FROM employees_lab12
+WHERE name LIKE 'A%';
+  name  
+--------
+ Aibek
+ Azamat
+(2 rows)
+
+SELECT email
+FROM employees_lab12
+WHERE email ILIKE '%@gmail.com';
+      email      
+-----------------
+ aibek@gmail.com
+ bakyt@gmail.com
+(2 rows)
+
+SELECT name
+FROM employees_lab12
+WHERE name ~ '^[AB]';
+  name  
+--------
+ Aibek
+ Bakyt
+ Azamat
+(3 rows)
+
+SELECT name, department
+FROM employees_lab12
+WHERE department IN ('Sales', 'HR');
+  name  | department 
+--------+------------
+ Aibek  | Sales
+ Dana   | HR
+ Azamat | Sales
+(3 rows)
+
+SELECT name, salary,
+    CASE
+        WHEN salary > 90000 THEN 'Senior'
+        WHEN salary BETWEEN 60000 AND 90000 THEN 'Mid-Level'
+        ELSE 'Junior'
+    END AS employee_level
+FROM employees_lab12;
+  name  |  salary  | employee_level 
+--------+----------+----------------
+ Aibek  | 65000.00 | Mid-Level
+ Meerim | 95000.00 | Senior
+ Bakyt  | 78000.00 | Mid-Level
+ Dana   | 52000.00 | Junior
+ Azamat | 72000.00 | Mid-Level
+(5 rows)
+
+WITH department_averages AS (
+    SELECT department, AVG(salary) AS avg_salary
+    FROM employees_lab12
+    GROUP BY department
+)
+SELECT e.name, e.salary, e.department, da.avg_salary
+FROM employees_lab12 e
+JOIN department_averages da ON e.department = da.department
+WHERE e.salary > da.avg_salary;
+  name  |  salary  | department  |     avg_salary     
+--------+----------+-------------+--------------------
+ Meerim | 95000.00 | Engineering | 86500.000000000000
+ Azamat | 72000.00 | Sales       | 68500.000000000000
+(2 rows)
+
+DROP TABLE employees_lab12;
+DROP TABLE

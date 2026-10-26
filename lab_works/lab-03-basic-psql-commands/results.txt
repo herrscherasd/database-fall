@@ -1,633 +1,403 @@
-Lab 03 — Basic psql Commands
-
-1. Connection
-
-Command:
-psql -h localhost -p 5432 -U postgres -d postgres
-
-Result:
-Successfully connected to PostgreSQL database "postgres" as user "postgres".
+-- Lab 03: Basic psql Commands
 
 
-2. List all databases
 
-Command:
+-- Connection command used:
+
+-- psql -h localhost -p 5432 -U postgres -d postgres
+
+
+
+-- List all databases
+
 \l
 
-Result:
-
-                                                      List of databases
-         Name         |  Owner   | Encoding | Locale Provider | Collate | Ctype | Locale | ICU Rules |   Access privileges
-----------------------+----------+----------+-----------------+---------+-------+--------+-----------+-----------------------
- dvd_rental           | postgres | UTF8     | libc            | C       | C     |        |
- dvd_rental_hw        | postgres | UTF8     | libc            | C       | C     |        |
- postgres             | postgres | UTF8     | libc            | C       | C     |        |
- postgres_advanced_hw | postgres | UTF8     | libc            | C       | C     |        |
- solveway             | postgres | UTF8     | libc            | C       | C     |        |
- template0            | postgres | UTF8     | libc            | C       | C     |        |           | =c/postgres +
-                      |          |          |                 |         |       |        |           | postgres=CTc/postgres
- template1            | postgres | UTF8     | libc            | C       | C     |        |           | =c/postgres
- test_db              | postgres | UTF8     | libc            | C       | C     |        |
-(8 rows)
+                                                List of databases
+   Name    |  Owner   | Encoding | Locale Provider | Collate | Ctype | Locale | ICU Rules |   Access privileges   
+-----------+----------+----------+-----------------+---------+-------+--------+-----------+-----------------------
+ lab_03    | postgres | UTF8     | libc            | C       | C     |        |           | 
+ postgres  | postgres | UTF8     | libc            | C       | C     |        |           | 
+ template0 | postgres | UTF8     | libc            | C       | C     |        |           | =c/postgres          +
+           |          |          |                 |         |       |        |           | postgres=CTc/postgres
+ template1 | postgres | UTF8     | libc            | C       | C     |        |           | =c/postgres          +
+           |          |          |                 |         |       |        |           | postgres=CTc/postgres
+(4 rows)
 
 
-3. Connect to database
 
-Command:
+-- Connect to database
+
 \c postgres
 
-Result:
 You are now connected to database "postgres" as user "postgres".
 
 
-4. List tables
+-- List all tables
 
-Command:
 \dt
 
-Result:
-
-                          List of tables
- Schema |                 Name                  | Type  |  Owner
---------+---------------------------------------+-------+----------
- public | auth_group                            | table | postgres
- public | auth_group_permissions                | table | postgres
- public | auth_permission                       | table | postgres
- public | authentication_expertisearea          | table | postgres
- public | authentication_manager                | table | postgres
- public | authentication_mentor                 | table | postgres
- public | authentication_mentor_courses         | table | postgres
- public | authentication_mentor_expertise_areas | table | postgres
- public | authentication_role                   | table | postgres
- public | authentication_student                | table | postgres
- public | authentication_student_courses        | table | postgres
- public | authentication_user                   | table | postgres
- public | authentication_user_groups            | table | postgres
- public | authentication_user_user_permissions  | table | postgres
- public | blog_article                          | table | postgres
- public | blog_articlereaction                  | table | postgres
- public | blog_articlereport                    | table | postgres
- public | blog_articleview                      | table | postgres
- public | blog_author                           | table | postgres
- public | blog_bookmark                         | table | postgres
- public | blog_category                         | table | postgres
- public | blog_comment                          | table | postgres
- public | blog_readingprogress                  | table | postgres
- public | blog_series                           | table | postgres
- public | certificates                          | table | postgres
- public | core_attribution                      | table | postgres
- public | courses_course                        | table | postgres
- public | courses_extrasource                   | table | postgres
- public | courses_extrasource_steps             | table | postgres
- public | courses_lesson                        | table | postgres
- public | courses_quiz                          | table | postgres
- public | courses_quizanswer                    | table | postgres
- public | courses_quizattempt                   | table | postgres
- public | courses_quizquestion                  | table | postgres
- public | courses_quizresponse                  | table | postgres
- public | courses_quizresponse_selected_answers | table | postgres
- public | courses_step                          | table | postgres
- public | courses_step_articles                 | table | postgres
- public | courses_tip                           | table | postgres
- public | django_admin_log                      | table | postgres
- public | django_celery_beat_clockedschedule    | table | postgres
- public | django_celery_beat_crontabschedule    | table | postgres
- public | django_celery_beat_intervalschedule   | table | postgres
- public | django_celery_beat_periodictask       | table | postgres
- public | django_celery_beat_periodictasks      | table | postgres
- public | django_celery_beat_solarschedule      | table | postgres
- public | django_content_type                   | table | postgres
- public | django_migrations                     | table | postgres
- public | django_session                        | table | postgres
- public | django_site                           | table | postgres
- public | feedback                              | table | postgres
- public | manager_notes                         | table | postgres
- public | manager_short_links                   | table | postgres
- public | mentors_improvementstep               | table | postgres
- public | mentors_lessonsubmission              | table | postgres
- public | mentors_mentornotification            | table | postgres
- public | mentors_review                        | table | postgres
- public | mentors_stepprogress                  | table | postgres
- public | mentors_studentimprovement            | table | postgres
- public | notifications_notificationlog         | table | postgres
- public | notifications_subscription            | table | postgres
- public | payments_payment                      | table | postgres
- public | social_auth_association               | table | postgres
- public | social_auth_code                      | table | postgres
- public | social_auth_nonce                     | table | postgres
- public | social_auth_partial                   | table | postgres
- public | social_auth_usersocialauth            | table | postgres
- public | system_logs                           | table | postgres
- public | system_settings                       | table | postgres
- public | taggit_tag                            | table | postgres
- public | taggit_taggeditem                     | table | postgres
- public | token_blacklist_blacklistedtoken      | table | postgres
- public | token_blacklist_outstandingtoken      | table | postgres
-(73 rows)
+psql:basic_psql_commands.sql:13: error: Did not find any tables.
 
 
-5. List all relations
+-- List all relations
 
-Command:
 \d
 
-Result:
-
-                              List of relations
- Schema |                     Name                     |   Type   |  Owner
---------+----------------------------------------------+----------+----------
- public | auth_group                                   | table    | postgres
- public | auth_group_id_seq                            | sequence | postgres
- public | auth_group_permissions                       | table    | postgres
- public | auth_group_permissions_id_seq                | sequence | postgres
- public | auth_permission                              | table    | postgres
- public | auth_permission_id_seq                       | sequence | postgres
- public | authentication_expertisearea                 | table    | postgres
- public | authentication_expertisearea_id_seq          | sequence | postgres
- public | authentication_manager                       | table    | postgres
- public | authentication_mentor                        | table    | postgres
- public | authentication_mentor_courses                | table    | postgres
- public | authentication_mentor_courses_id_seq         | sequence | postgres
- public | authentication_mentor_expertise_areas        | table    | postgres
- public | authentication_mentor_expertise_areas_id_seq | sequence | postgres
- public | authentication_role                          | table    | postgres
- public | authentication_role_id_seq                   | sequence | postgres
- public | authentication_student                       | table    | postgres
- public | authentication_student_courses               | table    | postgres
- public | authentication_student_courses_id_seq        | sequence | postgres
- public | authentication_user                          | table    | postgres
- public | authentication_user_groups                   | table    | postgres
- public | authentication_user_groups_id_seq            | sequence | postgres
- public | authentication_user_id_seq                   | sequence | postgres
- public | authentication_user_user_permissions         | table    | postgres
- public | authentication_user_user_permissions_id_seq  | sequence | postgres
- public | blog_article                                 | table    | postgres
- public | blog_article_id_seq                          | sequence | postgres
- public | blog_articlereaction                         | table    | postgres
- public | blog_articlereaction_id_seq                  | sequence | postgres
- public | blog_articlereport                           | table    | postgres
- public | blog_articlereport_id_seq                    | sequence | postgres
- public | blog_articleview                             | table    | postgres
- public | blog_articleview_id_seq                      | sequence | postgres
- public | blog_author                                  | table    | postgres
- public | blog_author_id_seq                           | sequence | postgres
- public | blog_bookmark                                | table    | postgres
- public | blog_bookmark_id_seq                         | sequence | postgres
- public | blog_category                                | table    | postgres
- public | blog_category_id_seq                         | sequence | postgres
- public | blog_comment                                 | table    | postgres
- public | blog_comment_id_seq                          | sequence | postgres
- public | blog_readingprogress                         | table    | postgres
- public | blog_readingprogress_id_seq                  | sequence | postgres
- public | blog_series                                  | table    | postgres
- public | blog_series_id_seq                           | sequence | postgres
- public | certificates                                 | table    | postgres
- public | certificates_id_seq                          | sequence | postgres
- public | core_attribution                             | table    | postgres
- public | courses_course                               | table    | postgres
- public | courses_extrasource                          | table    | postgres
- public | courses_extrasource_steps                    | table    | postgres
- public | courses_extrasource_steps_id_seq             | sequence | postgres
- public | courses_lesson                               | table    | postgres
- public | courses_quiz                                 | table    | postgres
- public | courses_quizanswer                           | table    | postgres
- public | courses_quizattempt                          | table    | postgres
- public | courses_quizquestion                         | table    | postgres
- public | courses_quizresponse                         | table    | postgres
- public | courses_quizresponse_selected_answers        | table    | postgres
- public | courses_quizresponse_selected_answers_id_seq | sequence | postgres
- public | courses_step                                 | table    | postgres
- public | courses_step_articles                        | table    | postgres
- public | courses_step_articles_id_seq                 | sequence | postgres
- public | courses_tip                                  | table    | postgres
- public | django_admin_log                             | table    | postgres
- public | django_admin_log_id_seq                      | sequence | postgres
- public | django_celery_beat_clockedschedule           | table    | postgres
- public | django_celery_beat_clockedschedule_id_seq    | sequence | postgres
- public | django_celery_beat_crontabschedule           | table    | postgres
- public | django_celery_beat_crontabschedule_id_seq    | sequence | postgres
- public | django_celery_beat_intervalschedule          | table    | postgres
- public | django_celery_beat_intervalschedule_id_seq   | sequence | postgres
- public | django_celery_beat_periodictask              | table    | postgres
- public | django_celery_beat_periodictask_id_seq       | sequence | postgres
- public | django_celery_beat_periodictasks             | table    | postgres
- public | django_celery_beat_solarschedule             | table    | postgres
- public | django_celery_beat_solarschedule_id_seq      | sequence | postgres
- public | django_content_type                          | table    | postgres
- public | django_content_type_id_seq                   | sequence | postgres
- public | django_migrations                            | table    | postgres
- public | django_migrations_id_seq                     | sequence | postgres
- public | django_session                               | table    | postgres
- public | django_site                                  | table    | postgres
- public | django_site_id_seq                           | sequence | postgres
- public | feedback                                     | table    | postgres
- public | feedback_id_seq                              | sequence | postgres
- public | manager_notes                                | table    | postgres
- public | manager_notes_id_seq                         | sequence | postgres
- public | manager_short_links                          | table    | postgres
- public | manager_short_links_id_seq                   | sequence | postgres
- public | mentors_improvementstep                      | table    | postgres
- public | mentors_improvementstep_id_seq               | sequence | postgres
- public | mentors_lessonsubmission                     | table    | postgres
- public | mentors_mentornotification                   | table    | postgres
- public | mentors_review                               | table    | postgres
- public | mentors_stepprogress                         | table    | postgres
- public | mentors_stepprogress_id_seq                  | sequence | postgres
- public | mentors_studentimprovement                   | table    | postgres
- public | notifications_notificationlog                | table    | postgres
- public | notifications_notificationlog_id_seq         | sequence | postgres
- public | notifications_subscription                   | table    | postgres
- public | notifications_subscription_id_seq            | sequence | postgres
- public | payments_payment                             | table    | postgres
- public | social_auth_association                      | table    | postgres
- public | social_auth_association_id_seq               | sequence | postgres
- public | social_auth_code                             | table    | postgres
- public | social_auth_code_id_seq                      | sequence | postgres
- public | social_auth_nonce                            | table    | postgres
- public | social_auth_nonce_id_seq                     | sequence | postgres
- public | social_auth_partial                          | table    | postgres
- public | social_auth_partial_id_seq                   | sequence | postgres
- public | social_auth_usersocialauth                   | table    | postgres
- public | social_auth_usersocialauth_id_seq            | sequence | postgres
- public | system_logs                                  | table    | postgres
- public | system_logs_id_seq                           | sequence | postgres
- public | system_settings                              | table    | postgres
- public | system_settings_id_seq                       | sequence | postgres
- public | taggit_tag                                   | table    | postgres
- public | taggit_tag_id_seq                            | sequence | postgres
- public | taggit_taggeditem                            | table    | postgres
- public | taggit_taggeditem_id_seq                     | sequence | postgres
- public | token_blacklist_blacklistedtoken             | table    | postgres
- public | token_blacklist_blacklistedtoken_id_seq      | sequence | postgres
- public | token_blacklist_outstandingtoken             | table    | postgres
- public | token_blacklist_outstandingtoken_id_seq      | sequence | postgres
-(125 rows)
+psql:basic_psql_commands.sql:16: error: Did not find any relations.
 
 
-6. Create students table
-
-Command:
+-- Create students table
 
 CREATE TABLE students (
+
     id SERIAL PRIMARY KEY,
+
     name VARCHAR(100),
+
     age INT
+
 );
 
-Result:
 CREATE TABLE
 
 
-7. List tables after creating students
+-- List tables after creating students
 
-Command:
 \dt
 
-Result:
-
-                              List of relations
- Schema |                     Name                     |   Type   |  Owner
---------+----------------------------------------------+----------+----------
- public | auth_group                                   | table    | postgres
- public | auth_group_id_seq                            | sequence | postgres
- public | auth_group_permissions                       | table    | postgres
- public | auth_group_permissions_id_seq                | sequence | postgres
- public | auth_permission                              | table    | postgres
- public | auth_permission_id_seq                       | sequence | postgres
- public | authentication_expertisearea                 | table    | postgres
- public | authentication_expertisearea_id_seq          | sequence | postgres
- public | authentication_manager                       | table    | postgres
- public | authentication_mentor                        | table    | postgres
- public | authentication_mentor_courses                | table    | postgres
- public | authentication_mentor_courses_id_seq         | sequence | postgres
- public | authentication_mentor_expertise_areas        | table    | postgres
- public | authentication_mentor_expertise_areas_id_seq | sequence | postgres
- public | authentication_role                          | table    | postgres
- public | authentication_role_id_seq                   | sequence | postgres
- public | authentication_student                       | table    | postgres
- public | authentication_student_courses               | table    | postgres
- public | authentication_student_courses_id_seq        | sequence | postgres
- public | authentication_user                          | table    | postgres
- public | authentication_user_groups                   | table    | postgres
- public | authentication_user_groups_id_seq            | sequence | postgres
- public | authentication_user_id_seq                   | sequence | postgres
- public | authentication_user_user_permissions         | table    | postgres
- public | authentication_user_user_permissions_id_seq  | sequence | postgres
- public | blog_article                                 | table    | postgres
- public | blog_article_id_seq                          | sequence | postgres
- public | blog_articlereaction                         | table    | postgres
- public | blog_articlereaction_id_seq                  | sequence | postgres
- public | blog_articlereport                           | table    | postgres
- public | blog_articlereport_id_seq                    | sequence | postgres
- public | blog_articleview                             | table    | postgres
- public | blog_articleview_id_seq                      | sequence | postgres
- public | blog_author                                  | table    | postgres
- public | blog_author_id_seq                           | sequence | postgres
- public | blog_bookmark                                | table    | postgres
- public | blog_bookmark_id_seq                         | sequence | postgres
- public | blog_category                                | table    | postgres
- public | blog_category_id_seq                         | sequence | postgres
- public | blog_comment                                 | table    | postgres
- public | blog_comment_id_seq                          | sequence | postgres
- public | blog_readingprogress                         | table    | postgres
- public | blog_readingprogress_id_seq                  | sequence | postgres
- public | blog_series                                  | table    | postgres
- public | blog_series_id_seq                           | sequence | postgres
- public | certificates                                 | table    | postgres
- public | certificates_id_seq                          | sequence | postgres
- public | core_attribution                             | table    | postgres
- public | courses_course                               | table    | postgres
- public | courses_extrasource                          | table    | postgres
- public | courses_extrasource_steps                    | table    | postgres
- public | courses_extrasource_steps_id_seq             | sequence | postgres
- public | courses_lesson                               | table    | postgres
- public | courses_quiz                                 | table    | postgres
- public | courses_quizanswer                           | table    | postgres
- public | courses_quizattempt                          | table    | postgres
- public | courses_quizquestion                         | table    | postgres
- public | courses_quizresponse                         | table    | postgres
- public | courses_quizresponse_selected_answers        | table    | postgres
- public | courses_quizresponse_selected_answers_id_seq | sequence | postgres
- public | courses_step                                 | table    | postgres
- public | courses_step_articles                        | table    | postgres
- public | courses_step_articles_id_seq                 | sequence | postgres
- public | courses_tip                                  | table    | postgres
- public | django_admin_log                             | table    | postgres
- public | django_admin_log_id_seq                      | sequence | postgres
- public | django_celery_beat_clockedschedule           | table    | postgres
- public | django_celery_beat_clockedschedule_id_seq    | sequence | postgres
- public | django_celery_beat_crontabschedule           | table    | postgres
- public | django_celery_beat_crontabschedule_id_seq    | sequence | postgres
- public | django_celery_beat_intervalschedule          | table    | postgres
- public | django_celery_beat_intervalschedule_id_seq   | sequence | postgres
- public | django_celery_beat_periodictask              | table    | postgres
- public | django_celery_beat_periodictask_id_seq       | sequence | postgres
- public | django_celery_beat_periodictasks             | table    | postgres
- public | django_celery_beat_solarschedule             | table    | postgres
- public | django_celery_beat_solarschedule_id_seq      | sequence | postgres
- public | django_content_type                          | table    | postgres
- public | django_content_type_id_seq                   | sequence | postgres
- public | django_migrations                            | table    | postgres
- public | django_migrations_id_seq                     | sequence | postgres
- public | django_session                               | table    | postgres
- public | django_site                                  | table    | postgres
- public | django_site_id_seq                           | sequence | postgres
- public | feedback                                     | table    | postgres
- public | feedback_id_seq                              | sequence | postgres
- public | manager_notes                                | table    | postgres
- public | manager_notes_id_seq                         | sequence | postgres
- public | manager_short_links                          | table    | postgres
- public | manager_short_links_id_seq                   | sequence | postgres
- public | mentors_improvementstep                      | table    | postgres
- public | mentors_improvementstep_id_seq               | sequence | postgres
- public | mentors_lessonsubmission                     | table    | postgres
- public | mentors_mentornotification                   | table    | postgres
- public | mentors_review                               | table    | postgres
- public | mentors_stepprogress                         | table    | postgres
- public | mentors_stepprogress_id_seq                  | sequence | postgres
- public | mentors_studentimprovement                   | table    | postgres
- public | notifications_notificationlog                | table    | postgres
- public | notifications_notificationlog_id_seq         | sequence | postgres
- public | notifications_subscription                   | table    | postgres
- public | notifications_subscription_id_seq            | sequence | postgres
- public | payments_payment                             | table    | postgres
- public | social_auth_association                      | table    | postgres
- public | social_auth_association_id_seq               | sequence | postgres
- public | social_auth_code                             | table    | postgres
- public | social_auth_code_id_seq                      | sequence | postgres
- public | social_auth_nonce                            | table    | postgres
- public | social_auth_nonce_id_seq                     | sequence | postgres
- public | social_auth_partial                          | table    | postgres
- public | social_auth_partial_id_seq                   | sequence | postgres
- public | social_auth_usersocialauth                   | table    | postgres
- public | social_auth_usersocialauth_id_seq            | sequence | postgres
- public | system_logs                                  | table    | postgres
- public | system_logs_id_seq                           | sequence | postgres
- public | system_settings                              | table    | postgres
- public | system_settings_id_seq                       | sequence | postgres
- public | taggit_tag                                   | table    | postgres
- public | taggit_tag_id_seq                            | sequence | postgres
- public | taggit_taggeditem                            | table    | postgres
- public | taggit_taggeditem_id_seq                     | sequence | postgres
- public | token_blacklist_blacklistedtoken             | table    | postgres
- public | token_blacklist_blacklistedtoken_id_seq      | sequence | postgres
- public | token_blacklist_outstandingtoken             | table    | postgres
- public | token_blacklist_outstandingtoken_id_seq      | sequence | postgres
-(125 rows)
+            List of tables
+ Schema |   Name   | Type  |  Owner   
+--------+----------+-------+----------
+ public | students | table | postgres
+(1 row)
 
 
-8. Describe students table
 
-Command:
+-- List all relations after creating students
+
+\d
+
+               List of relations
+ Schema |      Name       |   Type   |  Owner   
+--------+-----------------+----------+----------
+ public | students        | table    | postgres
+ public | students_id_seq | sequence | postgres
+(2 rows)
+
+
+
+-- Describe students table
+
 \d students
 
-Result:
-
                                     Table "public.students"
-
- Column |          Type          | Collation | Nullable |              Default
+ Column |          Type          | Collation | Nullable |               Default                
 --------+------------------------+-----------+----------+--------------------------------------
- id     | integer               |           | not null | nextval('students_id_seq'::regclass)
- name   | character varying(100) |           |          |
- age    | integer               |           |          |
+ id     | integer                |           | not null | nextval('students_id_seq'::regclass)
+ name   | character varying(100) |           |          | 
+ age    | integer                |           |          | 
 Indexes:
     "students_pkey" PRIMARY KEY, btree (id)
 
 
-9. Insert data
 
-Command:
+-- Insert data
 
 INSERT INTO students (name, age)
+
 VALUES ('Alice', 21), ('Bob', 23);
 
-Result:
 INSERT 0 2
 
 
-10. Select data
+-- Select data
 
-Command:
 SELECT * FROM students;
 
-Result:
-
- id | name  | age
+ id | name  | age 
 ----+-------+-----
   1 | Alice |  21
   2 | Bob   |  23
 (2 rows)
 
 
-11. SQL command help
 
-Command:
+-- Show SQL command help
+
 \h
 
-Result:
-PostgreSQL SQL command help was displayed successfully.
+Available help:
+  ABORT                            CREATE USER MAPPING
+  ALTER AGGREGATE                  CREATE VIEW
+  ALTER COLLATION                  DEALLOCATE
+  ALTER CONVERSION                 DECLARE
+  ALTER DATABASE                   DELETE
+  ALTER DEFAULT PRIVILEGES         DISCARD
+  ALTER DOMAIN                     DO
+  ALTER EVENT TRIGGER              DROP ACCESS METHOD
+  ALTER EXTENSION                  DROP AGGREGATE
+  ALTER FOREIGN DATA WRAPPER       DROP CAST
+  ALTER FOREIGN TABLE              DROP COLLATION
+  ALTER FUNCTION                   DROP CONVERSION
+  ALTER GROUP                      DROP DATABASE
+  ALTER INDEX                      DROP DOMAIN
+  ALTER LANGUAGE                   DROP EVENT TRIGGER
+  ALTER LARGE OBJECT               DROP EXTENSION
+  ALTER MATERIALIZED VIEW          DROP FOREIGN DATA WRAPPER
+  ALTER OPERATOR                   DROP FOREIGN TABLE
+  ALTER OPERATOR CLASS             DROP FUNCTION
+  ALTER OPERATOR FAMILY            DROP GROUP
+  ALTER POLICY                     DROP INDEX
+  ALTER PROCEDURE                  DROP LANGUAGE
+  ALTER PUBLICATION                DROP MATERIALIZED VIEW
+  ALTER ROLE                       DROP OPERATOR
+  ALTER ROUTINE                    DROP OPERATOR CLASS
+  ALTER RULE                       DROP OPERATOR FAMILY
+  ALTER SCHEMA                     DROP OWNED
+  ALTER SEQUENCE                   DROP POLICY
+  ALTER SERVER                     DROP PROCEDURE
+  ALTER STATISTICS                 DROP PUBLICATION
+  ALTER SUBSCRIPTION               DROP ROLE
+  ALTER SYSTEM                     DROP ROUTINE
+  ALTER TABLE                      DROP RULE
+  ALTER TABLESPACE                 DROP SCHEMA
+  ALTER TEXT SEARCH CONFIGURATION  DROP SEQUENCE
+  ALTER TEXT SEARCH DICTIONARY     DROP SERVER
+  ALTER TEXT SEARCH PARSER         DROP STATISTICS
+  ALTER TEXT SEARCH TEMPLATE       DROP SUBSCRIPTION
+  ALTER TRIGGER                    DROP TABLE
+  ALTER TYPE                       DROP TABLESPACE
+  ALTER USER                       DROP TEXT SEARCH CONFIGURATION
+  ALTER USER MAPPING               DROP TEXT SEARCH DICTIONARY
+  ALTER VIEW                       DROP TEXT SEARCH PARSER
+  ANALYZE                          DROP TEXT SEARCH TEMPLATE
+  BEGIN                            DROP TRANSFORM
+  CALL                             DROP TRIGGER
+  CHECKPOINT                       DROP TYPE
+  CLOSE                            DROP USER
+  CLUSTER                          DROP USER MAPPING
+  COMMENT                          DROP VIEW
+  COMMIT                           END
+  COMMIT PREPARED                  EXECUTE
+  COPY                             EXPLAIN
+  CREATE ACCESS METHOD             FETCH
+  CREATE AGGREGATE                 GRANT
+  CREATE CAST                      IMPORT FOREIGN SCHEMA
+  CREATE COLLATION                 INSERT
+  CREATE CONVERSION                LISTEN
+  CREATE DATABASE                  LOAD
+  CREATE DOMAIN                    LOCK
+  CREATE EVENT TRIGGER             MERGE
+  CREATE EXTENSION                 MOVE
+  CREATE FOREIGN DATA WRAPPER      NOTIFY
+  CREATE FOREIGN TABLE             PREPARE
+  CREATE FUNCTION                  PREPARE TRANSACTION
+  CREATE GROUP                     REASSIGN OWNED
+  CREATE INDEX                     REFRESH MATERIALIZED VIEW
+  CREATE LANGUAGE                  REINDEX
+  CREATE MATERIALIZED VIEW         RELEASE SAVEPOINT
+  CREATE OPERATOR                  RESET
+  CREATE OPERATOR CLASS            REVOKE
+  CREATE OPERATOR FAMILY           ROLLBACK
+  CREATE POLICY                    ROLLBACK PREPARED
+  CREATE PROCEDURE                 ROLLBACK TO SAVEPOINT
+  CREATE PUBLICATION               SAVEPOINT
+  CREATE ROLE                      SECURITY LABEL
+  CREATE RULE                      SELECT
+  CREATE SCHEMA                    SELECT INTO
+  CREATE SEQUENCE                  SET
+  CREATE SERVER                    SET CONSTRAINTS
+  CREATE STATISTICS                SET ROLE
+  CREATE SUBSCRIPTION              SET SESSION AUTHORIZATION
+  CREATE TABLE                     SET TRANSACTION
+  CREATE TABLE AS                  SHOW
+  CREATE TABLESPACE                START TRANSACTION
+  CREATE TEXT SEARCH CONFIGURATION TABLE
+  CREATE TEXT SEARCH DICTIONARY    TRUNCATE
+  CREATE TEXT SEARCH PARSER        UNLISTEN
+  CREATE TEXT SEARCH TEMPLATE      UPDATE
+  CREATE TRANSFORM                 VACUUM
+  CREATE TRIGGER                   VALUES
+  CREATE TYPE                      WITH
+  CREATE USER                      
 
 
-12. psql meta-command help
+-- Show psql meta-command help
 
-Command:
 \?
 
-Result:
-The psql meta-command help was displayed successfully.
+General
+  \copyright             show PostgreSQL usage and distribution terms
+  \crosstabview [COLUMNS] execute query and display result in crosstab
+  \errverbose            show most recent error message at maximum verbosity
+  \g [(OPTIONS)] [FILE]  execute query (and send result to file or |pipe);
+                         \g with no arguments is equivalent to a semicolon
+  \gdesc                 describe result of query, without executing it
+  \gexec                 execute query, then execute each value in its result
+  \gset [PREFIX]         execute query and store result in psql variables
+  \gx [(OPTIONS)] [FILE] as \g, but forces expanded output mode
+  \q                     quit psql
+  \restrict RESTRICT_KEY
+                         enter restricted mode with provided key
+  \unrestrict RESTRICT_KEY
+                         exit restricted mode if key matches
+  \watch [[i=]SEC] [c=N] [m=MIN]
+                         execute query every SEC seconds, up to N times,
+                         stop if less than MIN rows are returned
+
+Help
+  \? [commands]          show help on backslash commands
+  \? options             show help on psql command-line options
+  \? variables           show help on special variables
+  \h [NAME]              help on syntax of SQL commands, * for all commands
+
+Query Buffer
+  \e [FILE] [LINE]       edit the query buffer (or file) with external editor
+  \ef [FUNCNAME [LINE]]  edit function definition with external editor
+  \ev [VIEWNAME [LINE]]  edit view definition with external editor
+  \p                     show the contents of the query buffer
+  \r                     reset (clear) the query buffer
+  \w FILE                write query buffer to file
+
+Input/Output
+  \copy ...              perform SQL COPY with data stream to the client host
+  \echo [-n] [STRING]    write string to standard output (-n for no newline)
+  \i FILE                execute commands from file
+  \ir FILE               as \i, but relative to location of current script
+  \o [FILE]              send all query results to file or |pipe
+  \qecho [-n] [STRING]   write string to \o output stream (-n for no newline)
+  \warn [-n] [STRING]    write string to standard error (-n for no newline)
+
+Conditional
+  \if EXPR               begin conditional block
+  \elif EXPR             alternative within current conditional block
+  \else                  final alternative within current conditional block
+  \endif                 end conditional block
+
+Informational
+  (options: S = show system objects, x = expanded mode, + = additional detail)
+  \d[Sx+]                list tables, views, and sequences
+  \d[S+]   NAME          describe table, view, sequence, or index
+  \da[Sx]  [PATTERN]     list aggregates
+  \dA[x+]  [PATTERN]     list access methods
+  \dAc[x+] [AMPTRN [TYPEPTRN]]  list operator classes
+  \dAf[x+] [AMPTRN [TYPEPTRN]]  list operator families
+  \dAo[x+] [AMPTRN [OPFPTRN]]   list operators of operator families
+  \dAp[x+] [AMPTRN [OPFPTRN]]   list support functions of operator families
+  \db[x+]  [PATTERN]     list tablespaces
+  \dc[Sx+] [PATTERN]     list conversions
+  \dconfig[x+] [PATTERN] list configuration parameters
+  \dC[x+]  [PATTERN]     list casts
+  \dd[Sx]  [PATTERN]     show object descriptions not displayed elsewhere
+  \dD[Sx+] [PATTERN]     list domains
+  \ddp[x]  [PATTERN]     list default privileges
+  \dE[Sx+] [PATTERN]     list foreign tables
+  \des[x+] [PATTERN]     list foreign servers
+  \det[x+] [PATTERN]     list foreign tables
+  \deu[x+] [PATTERN]     list user mappings
+  \dew[x+] [PATTERN]     list foreign-data wrappers
+  \df[anptw][Sx+] [FUNCPTRN [TYPEPTRN ...]]
+                         list [only agg/normal/procedure/trigger/window] functions
+  \dF[x+]  [PATTERN]     list text search configurations
+  \dFd[x+] [PATTERN]     list text search dictionaries
+  \dFp[x+] [PATTERN]     list text search parsers
+  \dFt[x+] [PATTERN]     list text search templates
+  \dg[Sx+] [PATTERN]     list roles
+  \di[Sx+] [PATTERN]     list indexes
+  \dl[x+]                list large objects, same as \lo_list
+  \dL[Sx+] [PATTERN]     list procedural languages
+  \dm[Sx+] [PATTERN]     list materialized views
+  \dn[Sx+] [PATTERN]     list schemas
+  \do[Sx+] [OPPTRN [TYPEPTRN [TYPEPTRN]]]
+                         list operators
+  \dO[Sx+] [PATTERN]     list collations
+  \dp[Sx]  [PATTERN]     list table, view, and sequence access privileges
+  \dP[itnx+] [PATTERN]   list [only index/table] partitioned relations [n=nested]
+  \drds[x] [ROLEPTRN [DBPTRN]]
+                         list per-database role settings
+  \drg[Sx] [PATTERN]     list role grants
+  \dRp[x+] [PATTERN]     list replication publications
+  \dRs[x+] [PATTERN]     list replication subscriptions
+  \ds[Sx+] [PATTERN]     list sequences
+  \dt[Sx+] [PATTERN]     list tables
+  \dT[Sx+] [PATTERN]     list data types
+  \du[Sx+] [PATTERN]     list roles
+  \dv[Sx+] [PATTERN]     list views
+  \dx[x+]  [PATTERN]     list extensions
+  \dX[x]   [PATTERN]     list extended statistics
+  \dy[x+]  [PATTERN]     list event triggers
+  \l[x+]   [PATTERN]     list databases
+  \sf[+]   FUNCNAME      show a function's definition
+  \sv[+]   VIEWNAME      show a view's definition
+  \z[Sx]   [PATTERN]     same as \dp
+
+Large Objects
+  \lo_export LOBOID FILE write large object to file
+  \lo_import FILE [COMMENT]
+                         read large object from file
+  \lo_list[x+]           list large objects
+  \lo_unlink LOBOID      delete a large object
+
+Formatting
+  \a                     toggle between unaligned and aligned output mode
+  \C [STRING]            set table title, or unset if none
+  \f [STRING]            show or set field separator for unaligned query output
+  \H                     toggle HTML output mode (currently off)
+  \pset [NAME [VALUE]]   set table output option
+                         (border|columns|csv_fieldsep|expanded|fieldsep|
+                         fieldsep_zero|footer|format|linestyle|null|
+                         numericlocale|pager|pager_min_lines|recordsep|
+                         recordsep_zero|tableattr|title|tuples_only|
+                         unicode_border_linestyle|unicode_column_linestyle|
+                         unicode_header_linestyle|xheader_width)
+  \t [on|off]            show only rows (currently off)
+  \T [STRING]            set HTML <table> tag attributes, or unset if none
+  \x [on|off|auto]       toggle expanded output (currently off)
+
+Connection
+  \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}
+                         connect to new database (currently "postgres")
+  \conninfo              display information about current connection
+  \encoding [ENCODING]   show or set client encoding
+  \password [USERNAME]   securely change the password for a user
+
+Operating System
+  \cd [DIR]              change the current working directory
+  \getenv PSQLVAR ENVVAR fetch environment variable
+  \setenv NAME [VALUE]   set or unset environment variable
+  \timing [on|off]       toggle timing of commands (currently off)
+  \! [COMMAND]           execute command in shell or start interactive shell
+
+Variables
+  \prompt [TEXT] NAME    prompt user to set internal variable
+  \set [NAME [VALUE]]    set internal variable, or list all if no parameters
+  \unset NAME            unset (delete) internal variable
+
+Extended Query Protocol
+  \bind [PARAM]...       set query parameters
+  \bind_named STMT_NAME [PARAM]...
+                         set query parameters for an existing prepared statement
+  \close_prepared STMT_NAME
+                         close an existing prepared statement
+  \endpipeline           exit pipeline mode
+  \flush                 flush output data to the server
+  \flushrequest          send request to the server to flush its output buffer
+  \getresults [NUM_RES]  read NUM_RES pending results, or all if no argument
+  \parse STMT_NAME       create a prepared statement
+  \sendpipeline          send an extended query to an ongoing pipeline
+  \startpipeline         enter pipeline mode
+  \syncpipeline          add a synchronisation point to an ongoing pipeline
 
 
-13. Drop students table
+-- Drop table
 
-Command:
 DROP TABLE students;
 
-Result:
 DROP TABLE
 
 
-14. Verify that students table was removed
+-- Check tables after dropping students
 
-Command:
 \dt
 
-Result:
-
-                              List of relations
- Schema |                     Name                     |   Type   |  Owner
---------+----------------------------------------------+----------+----------
- public | auth_group                                   | table    | postgres
- public | auth_group_id_seq                            | sequence | postgres
- public | auth_group_permissions                       | table    | postgres
- public | auth_group_permissions_id_seq                | sequence | postgres
- public | auth_permission                              | table    | postgres
- public | auth_permission_id_seq                       | sequence | postgres
- public | authentication_expertisearea                 | table    | postgres
- public | authentication_expertisearea_id_seq          | sequence | postgres
- public | authentication_manager                       | table    | postgres
- public | authentication_mentor                        | table    | postgres
- public | authentication_mentor_courses                | table    | postgres
- public | authentication_mentor_courses_id_seq         | sequence | postgres
- public | authentication_mentor_expertise_areas        | table    | postgres
- public | authentication_mentor_expertise_areas_id_seq | sequence | postgres
- public | authentication_role                          | table    | postgres
- public | authentication_role_id_seq                   | sequence | postgres
- public | authentication_student                       | table    | postgres
- public | authentication_student_courses               | table    | postgres
- public | authentication_student_courses_id_seq        | sequence | postgres
- public | authentication_user                          | table    | postgres
- public | authentication_user_groups                   | table    | postgres
- public | authentication_user_groups_id_seq            | sequence | postgres
- public | authentication_user_id_seq                   | sequence | postgres
- public | authentication_user_user_permissions         | table    | postgres
- public | authentication_user_user_permissions_id_seq  | sequence | postgres
- public | blog_article                                 | table    | postgres
- public | blog_article_id_seq                          | sequence | postgres
- public | blog_articlereaction                         | table    | postgres
- public | blog_articlereaction_id_seq                  | sequence | postgres
- public | blog_articlereport                           | table    | postgres
- public | blog_articlereport_id_seq                    | sequence | postgres
- public | blog_articleview                             | table    | postgres
- public | blog_articleview_id_seq                      | sequence | postgres
- public | blog_author                                  | table    | postgres
- public | blog_author_id_seq                           | sequence | postgres
- public | blog_bookmark                                | table    | postgres
- public | blog_bookmark_id_seq                         | sequence | postgres
- public | blog_category                                | table    | postgres
- public | blog_category_id_seq                         | sequence | postgres
- public | blog_comment                                 | table    | postgres
- public | blog_comment_id_seq                          | sequence | postgres
- public | blog_readingprogress                         | table    | postgres
- public | blog_readingprogress_id_seq                  | sequence | postgres
- public | blog_series                                  | table    | postgres
- public | blog_series_id_seq                           | sequence | postgres
- public | certificates                                 | table    | postgres
- public | certificates_id_seq                          | sequence | postgres
- public | core_attribution                             | table    | postgres
- public | courses_course                               | table    | postgres
- public | courses_extrasource                          | table    | postgres
- public | courses_extrasource_steps                    | table    | postgres
- public | courses_extrasource_steps_id_seq             | sequence | postgres
- public | courses_lesson                               | table    | postgres
- public | courses_quiz                                 | table    | postgres
- public | courses_quizanswer                           | table    | postgres
- public | courses_quizattempt                          | table    | postgres
- public | courses_quizquestion                         | table    | postgres
- public | courses_quizresponse                         | table    | postgres
- public | courses_quizresponse_selected_answers        | table    | postgres
- public | courses_quizresponse_selected_answers_id_seq | sequence | postgres
- public | courses_step                                 | table    | postgres
- public | courses_step_articles                        | table    | postgres
- public | courses_step_articles_id_seq                 | sequence | postgres
- public | courses_tip                                  | table    | postgres
- public | django_admin_log                             | table    | postgres
- public | django_admin_log_id_seq                      | sequence | postgres
- public | django_celery_beat_clockedschedule           | table    | postgres
- public | django_celery_beat_clockedschedule_id_seq    | sequence | postgres
- public | django_celery_beat_crontabschedule           | table    | postgres
- public | django_celery_beat_crontabschedule_id_seq    | sequence | postgres
- public | django_celery_beat_intervalschedule          | table    | postgres
- public | django_celery_beat_intervalschedule_id_seq   | sequence | postgres
- public | django_celery_beat_periodictask              | table    | postgres
- public | django_celery_beat_periodictask_id_seq       | sequence | postgres
- public | django_celery_beat_periodictasks             | table    | postgres
- public | django_celery_beat_solarschedule             | table    | postgres
- public | django_celery_beat_solarschedule_id_seq      | sequence | postgres
- public | django_content_type                          | table    | postgres
- public | django_content_type_id_seq                   | sequence | postgres
- public | django_migrations                            | table    | postgres
- public | django_migrations_id_seq                     | sequence | postgres
- public | django_session                               | table    | postgres
- public | django_site                                  | table    | postgres
- public | django_site_id_seq                           | sequence | postgres
- public | feedback                                     | table    | postgres
- public | feedback_id_seq                              | sequence | postgres
- public | manager_notes                                | table    | postgres
- public | manager_notes_id_seq                         | sequence | postgres
- public | manager_short_links                          | table    | postgres
- public | manager_short_links_id_seq                   | sequence | postgres
- public | mentors_improvementstep                      | table    | postgres
- public | mentors_improvementstep_id_seq               | sequence | postgres
- public | mentors_lessonsubmission                     | table    | postgres
- public | mentors_mentornotification                   | table    | postgres
- public | mentors_review                               | table    | postgres
- public | mentors_stepprogress                         | table    | postgres
- public | mentors_stepprogress_id_seq                  | sequence | postgres
- public | mentors_studentimprovement                   | table    | postgres
- public | notifications_notificationlog                | table    | postgres
- public | notifications_notificationlog_id_seq         | sequence | postgres
- public | notifications_subscription                   | table    | postgres
- public | notifications_subscription_id_seq            | sequence | postgres
- public | payments_payment                             | table    | postgres
- public | social_auth_association                      | table    | postgres
- public | social_auth_association_id_seq               | sequence | postgres
- public | social_auth_code                             | table    | postgres
- public | social_auth_code_id_seq                      | sequence | postgres
- public | social_auth_nonce                            | table    | postgres
- public | social_auth_nonce_id_seq                     | sequence | postgres
- public | social_auth_partial                          | table    | postgres
- public | social_auth_partial_id_seq                   | sequence | postgres
- public | social_auth_usersocialauth                   | table    | postgres
- public | social_auth_usersocialauth_id_seq            | sequence | postgres
- public | system_logs                                  | table    | postgres
- public | system_logs_id_seq                           | sequence | postgres
- public | system_settings                              | table    | postgres
- public | system_settings_id_seq                       | sequence | postgres
- public | taggit_tag                                   | table    | postgres
- public | taggit_tag_id_seq                            | sequence | postgres
- public | taggit_taggeditem                            | table    | postgres
- public | taggit_taggeditem_id_seq                     | sequence | postgres
- public | token_blacklist_blacklistedtoken             | table    | postgres
- public | token_blacklist_blacklistedtoken_id_seq      | sequence | postgres
- public | token_blacklist_outstandingtoken             | table    | postgres
- public | token_blacklist_outstandingtoken_id_seq      | sequence | postgres
-(125 rows)
-
-
-15. Exit psql
-
-Command:
-\q
-
-Result:
-Successfully exited psql.
+psql:basic_psql_commands.sql:51: error: Did not find any tables.

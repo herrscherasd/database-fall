@@ -1,0 +1,79 @@
+-- Lab 10: Viewing Database and Table Structure
+CREATE TABLE departments_lab10 (
+    department_id SERIAL PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL UNIQUE
+);
+CREATE TABLE
+CREATE TABLE students_lab10 (
+    student_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(120) UNIQUE,
+    department_id INTEGER REFERENCES departments_lab10(department_id)
+);
+CREATE TABLE
+-- View all tables in the current database
+\dt
+                List of tables
+ Schema |       Name        | Type  |  Owner   
+--------+-------------------+-------+----------
+ public | departments_lab10 | table | postgres
+ public | students_lab10    | table | postgres
+(2 rows)
+
+-- Describe exact table structures
+\d departments_lab10
+                                              Table "public.departments_lab10"
+     Column      |          Type          | Collation | Nullable |                         Default                          
+-----------------+------------------------+-----------+----------+----------------------------------------------------------
+ department_id   | integer                |           | not null | nextval('departments_lab10_department_id_seq'::regclass)
+ department_name | character varying(100) |           | not null | 
+Indexes:
+    "departments_lab10_pkey" PRIMARY KEY, btree (department_id)
+    "departments_lab10_department_name_key" UNIQUE CONSTRAINT, btree (department_name)
+Referenced by:
+    TABLE "students_lab10" CONSTRAINT "students_lab10_department_id_fkey" FOREIGN KEY (department_id) REFERENCES departments_lab10(department_id)
+
+\d students_lab10
+                                           Table "public.students_lab10"
+    Column     |          Type          | Collation | Nullable |                      Default                       
+---------------+------------------------+-----------+----------+----------------------------------------------------
+ student_id    | integer                |           | not null | nextval('students_lab10_student_id_seq'::regclass)
+ first_name    | character varying(50)  |           | not null | 
+ last_name     | character varying(50)  |           | not null | 
+ email         | character varying(120) |           |          | 
+ department_id | integer                |           |          | 
+Indexes:
+    "students_lab10_pkey" PRIMARY KEY, btree (student_id)
+    "students_lab10_email_key" UNIQUE CONSTRAINT, btree (email)
+Foreign-key constraints:
+    "students_lab10_department_id_fkey" FOREIGN KEY (department_id) REFERENCES departments_lab10(department_id)
+
+-- View table and column metadata through information_schema
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
+    table_name     
+-------------------
+ departments_lab10
+ students_lab10
+(2 rows)
+
+SELECT column_name, data_type, is_nullable
+FROM information_schema.columns
+WHERE table_name = 'students_lab10'
+ORDER BY ordinal_position;
+  column_name  |     data_type     | is_nullable 
+---------------+-------------------+-------------
+ student_id    | integer           | NO
+ first_name    | character varying | NO
+ last_name     | character varying | NO
+ email         | character varying | YES
+ department_id | integer           | YES
+(5 rows)
+
+DROP TABLE students_lab10;
+DROP TABLE
+DROP TABLE departments_lab10;
+DROP TABLE

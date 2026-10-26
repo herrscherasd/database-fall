@@ -1,0 +1,96 @@
+-- Lab 13: Aggregate Functions
+CREATE TABLE sales_lab13 (
+    sale_id SERIAL PRIMARY KEY,
+    department VARCHAR(50),
+    employee_name VARCHAR(100),
+    amount NUMERIC(10,2),
+    sale_date DATE
+);
+CREATE TABLE
+INSERT INTO sales_lab13 (department, employee_name, amount, sale_date)
+VALUES
+    ('Electronics', 'Aibek', 1200.00, '2024-01-10'),
+    ('Electronics', 'Meerim', 950.00, '2024-01-12'),
+    ('Books', 'Bakyt', 300.00, '2024-02-05'),
+    ('Books', 'Dana', 450.00, '2024-02-07'),
+    ('Clothing', 'Azamat', 700.00, '2024-03-01'),
+    ('Electronics', 'Aibek', 1500.00, '2024-03-15');
+INSERT 0 6
+SELECT COUNT(*) AS total_sales FROM sales_lab13;
+ total_sales 
+-------------
+           6
+(1 row)
+
+SELECT SUM(amount) AS total_revenue FROM sales_lab13;
+ total_revenue 
+---------------
+       5100.00
+(1 row)
+
+SELECT AVG(amount) AS average_sale FROM sales_lab13;
+     average_sale     
+----------------------
+ 850.0000000000000000
+(1 row)
+
+SELECT MAX(amount) AS highest_sale, MIN(amount) AS lowest_sale
+FROM sales_lab13;
+ highest_sale | lowest_sale 
+--------------+-------------
+      1500.00 |      300.00
+(1 row)
+
+SELECT department, COUNT(*) AS number_of_sales, SUM(amount) AS total_sales, AVG(amount) AS average_sale
+FROM sales_lab13
+GROUP BY department;
+ department  | number_of_sales | total_sales |     average_sale      
+-------------+-----------------+-------------+-----------------------
+ Electronics |               3 |     3650.00 | 1216.6666666666666667
+ Clothing    |               1 |      700.00 |  700.0000000000000000
+ Books       |               2 |      750.00 |  375.0000000000000000
+(3 rows)
+
+SELECT department, SUM(amount) AS total_sales
+FROM sales_lab13
+GROUP BY department
+HAVING SUM(amount) > 1000;
+ department  | total_sales 
+-------------+-------------
+ Electronics |     3650.00
+(1 row)
+
+SELECT department, STRING_AGG(employee_name, ', ' ORDER BY employee_name) AS employees
+FROM sales_lab13
+GROUP BY department;
+ department  |      employees       
+-------------+----------------------
+ Books       | Bakyt, Dana
+ Clothing    | Azamat
+ Electronics | Aibek, Aibek, Meerim
+(3 rows)
+
+SELECT department, ARRAY_AGG(amount ORDER BY amount) AS sale_amounts
+FROM sales_lab13
+GROUP BY department;
+ department  |       sale_amounts       
+-------------+--------------------------
+ Books       | {300.00,450.00}
+ Clothing    | {700.00}
+ Electronics | {950.00,1200.00,1500.00}
+(3 rows)
+
+SELECT EXTRACT(YEAR FROM sale_date) AS year,
+       EXTRACT(QUARTER FROM sale_date) AS quarter,
+       COUNT(*) AS sales_count,
+       SUM(amount) AS revenue
+FROM sales_lab13
+GROUP BY EXTRACT(YEAR FROM sale_date), EXTRACT(QUARTER FROM sale_date)
+ORDER BY year, quarter;
+ year | quarter | sales_count | revenue 
+------+---------+-------------+---------
+ 2024 |       1 |           6 | 5100.00
+(1 row)
+
+DROP TABLE sales_lab13;
+DROP TABLE

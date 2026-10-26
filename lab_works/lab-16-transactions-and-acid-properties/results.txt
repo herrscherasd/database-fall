@@ -1,0 +1,85 @@
+-- Lab 16: Transactions and ACID Properties
+CREATE TABLE accounts_lab16 (
+    account_id SERIAL PRIMARY KEY,
+    account_holder VARCHAR(100),
+    balance NUMERIC(10,2) CHECK (balance >= 0)
+);
+CREATE TABLE
+INSERT INTO accounts_lab16 (account_holder, balance)
+VALUES ('Aibek', 1000.00), ('Meerim', 500.00);
+INSERT 0 2
+SELECT * FROM accounts_lab16;
+ account_id | account_holder | balance 
+------------+----------------+---------
+          1 | Aibek          | 1000.00
+          2 | Meerim         |  500.00
+(2 rows)
+
+-- 1. Successful transaction
+BEGIN;
+BEGIN
+UPDATE accounts_lab16 SET balance = balance - 100 WHERE account_id = 1;
+UPDATE 1
+UPDATE accounts_lab16 SET balance = balance + 100 WHERE account_id = 2;
+UPDATE 1
+COMMIT;
+COMMIT
+SELECT * FROM accounts_lab16;
+ account_id | account_holder | balance 
+------------+----------------+---------
+          1 | Aibek          |  900.00
+          2 | Meerim         |  600.00
+(2 rows)
+
+-- 2. Rollback transaction
+BEGIN;
+BEGIN
+UPDATE accounts_lab16 SET balance = balance - 300 WHERE account_id = 1;
+UPDATE 1
+UPDATE accounts_lab16 SET balance = balance + 300 WHERE account_id = 2;
+UPDATE 1
+ROLLBACK;
+ROLLBACK
+SELECT * FROM accounts_lab16;
+ account_id | account_holder | balance 
+------------+----------------+---------
+          1 | Aibek          |  900.00
+          2 | Meerim         |  600.00
+(2 rows)
+
+-- 3. Savepoint
+BEGIN;
+BEGIN
+UPDATE accounts_lab16 SET balance = balance - 50 WHERE account_id = 1;
+UPDATE 1
+SAVEPOINT after_first_update;
+SAVEPOINT
+UPDATE accounts_lab16 SET balance = balance - 2000 WHERE account_id = 1;
+psql:transactions_and_acid_properties.sql:34: ERROR:  23514
+ROLLBACK TO SAVEPOINT after_first_update;
+ROLLBACK
+UPDATE accounts_lab16 SET balance = balance + 50 WHERE account_id = 2;
+UPDATE 1
+COMMIT;
+COMMIT
+SELECT * FROM accounts_lab16;
+ account_id | account_holder | balance 
+------------+----------------+---------
+          1 | Aibek          |  850.00
+          2 | Meerim         |  650.00
+(2 rows)
+
+-- 4. Isolation level example
+BEGIN TRANSACTION ISOLATION LEVEL READ COMMITTED;
+BEGIN
+SELECT * FROM accounts_lab16 WHERE balance > 500;
+ account_id | account_holder | balance 
+------------+----------------+---------
+          1 | Aibek          |  850.00
+          2 | Meerim         |  650.00
+(2 rows)
+
+COMMIT;
+COMMIT
+DROP TABLE accounts_lab16;
+DROP TABLE
